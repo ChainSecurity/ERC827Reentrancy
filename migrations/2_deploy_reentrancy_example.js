@@ -6,11 +6,12 @@ module.exports = function(deployer) {
    
     deployer.deploy(crowdsaleCoin, web3.eth.accounts[1], 10**10).then(function() {
         owner = web3.eth.accounts[1];
-        return deployer.deploy(VulnerableCrowdsale, 2, owner, crowdsaleCoin.address, {from: owner}).then(function(instance) {
-            //VulnerableCrowdsale.
-           // crowdsaleInstance = instance;
+        return deployer.deploy(VulnerableCrowdsale, 2, owner, crowdsaleCoin.address, {from: owner, value: 1000}).then(function(instance) {
+            //saleInst = instance.deployed();
+           //crowdsaleInstance = instance.address;
             //buyer = web3.eth.accounts[2];
-            //crowdsaleInstance.setUserCap(buyer, 1000, {from: owner});
+            //saleInst.setUserCap(buyer, 1000, {from: owner});
+            
             return deployer.deploy(Eve, {value: 1000});
         });
     });

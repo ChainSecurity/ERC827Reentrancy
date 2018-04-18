@@ -11,9 +11,11 @@ contract Eve {
    
     
     function exploitReentrancy(address a, uint amount) public {
-        //a.call(bytes4(sha3("buyTokens(address _beneficiary)")), this.owner);
-        tokenAmount = amount;
+       //a.call(bytes4(sha3("buyTokens(address _beneficiary)")), this.address, {value: 50});
+       // tokenAmount = amount;
         a.call.value(amount)();
+        //a.send(amount);
+       //a.transfer(amount);
         
     }
 
@@ -22,7 +24,7 @@ contract Eve {
     }*/
 
 
-    
+    /*
     function() payable public {
        return;
         if(alreadyCalled == true) {
@@ -34,4 +36,11 @@ contract Eve {
         
         
     }
+    */
+    
+    function() public payable {
+
+    }
+    
+    
 }
