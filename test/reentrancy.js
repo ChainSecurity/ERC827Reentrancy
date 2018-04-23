@@ -53,16 +53,26 @@ contract('VulnerableCrowdsale', function(accounts) {
     it("should NOT accept (20 + 90) wei from Eve with standard (non-reentrant) call", async function() {
         let oldBalance = web3.eth.getBalance(saleInstance.address).toNumber();
         //await saleInstance.setUserCap(eveInstance.address, 1000, {from: owner});
+        let evesOldTokenAmount = (await token.balanceOf(eveInstance.address)).toNumber();
         await eveInstance.exploitReentrancy(saleInstance.address, 90, false); 
+        let evesNewTokenAmount = (await token.balanceOf(eveInstance.address)).toNumber();
         let newBalance = web3.eth.getBalance(saleInstance.address).toNumber();
+        let eveContrib = (await saleInstance.getUserContribution(eveInstance.address)).toNumber();
+        assert.equal(evesOldTokenAmount, evesNewTokenAmount);
+        assert.equal(eveContrib, 20);
         assert.equal(newBalance, oldBalance);    
     });
 
     it("SHOULD accept (20 + 45 + 45) wei from Eve with reentrant call", async function() {
         let oldBalance = web3.eth.getBalance(saleInstance.address).toNumber();
         //await saleInstance.setUserCap(eveInstance.address, 1000, {from: owner});
+        let evesOldTokenAmount = (await token.balanceOf(eveInstance.address)).toNumber();
         await eveInstance.exploitReentrancy(saleInstance.address, 45, true); 
+        let evesNewTokenAmount = (await token.balanceOf(eveInstance.address)).toNumber();
         let newBalance = web3.eth.getBalance(saleInstance.address).toNumber();
+        let eveContrib = (await saleInstance.getUserContribution(eveInstance.address)).toNumber();
+        assert.equal(evesOldTokenAmount + 180, evesNewTokenAmount);
+        assert.equal(eveContrib, 110);
         assert.equal(newBalance, oldBalance + 90);    
     });
 
