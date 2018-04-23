@@ -24,7 +24,7 @@ contract Eve {
     }*/
 
 
-    
+    /*
     function() payable public {
        
         if(alreadyCalled == true) {
@@ -36,12 +36,13 @@ contract Eve {
         
         
     }
-    
-    /*
-    function() public payable {
-
-    }
     */
+    
+    
+    function() public payable {
+        
+    }
+    
     
     
 }

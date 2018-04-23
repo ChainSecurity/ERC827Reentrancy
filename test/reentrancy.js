@@ -72,7 +72,7 @@ contract('VulnerableCrowdsale', function(accounts) {
             return Eve.deployed().then(function(eveinstance){
                 return CarelessCrowdsaleCoin.deployed().then(function(token){
 
-                    return token.transfer(eveinstance.address, 20, {from: saleinstance.address}).then(function() {
+                    return saleinstance._deliverTokens(eveinstance.address, 20).then(function() {
                        return token.balanceOf(eveinstance.address).then(function(amount) {
                            var balance = amount.toNumber();
                            assert.equal(balance, 20);
