@@ -58,7 +58,7 @@ contract('VulnerableCrowdsale', function(accounts) {
         assert.equal(newBalance, oldBalance);    
     });
 
-    it("SHOULD accept (20 + 90) wei from Eve with reentrant call", async function() {
+    it("SHOULD accept (20 + 45 + 45) wei from Eve with reentrant call", async function() {
         let oldBalance = web3.eth.getBalance(saleInstance.address).toNumber();
         //await saleInstance.setUserCap(eveInstance.address, 1000, {from: owner});
         await eveInstance.exploitReentrancy(saleInstance.address, 45, true); 
