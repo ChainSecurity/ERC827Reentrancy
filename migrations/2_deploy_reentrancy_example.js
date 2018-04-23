@@ -13,7 +13,7 @@ module.exports = function(deployer) {
             //buyer = web3.eth.accounts[2];
             //saleInst.setUserCap(buyer, 1000, {from: owner});
             
-            return deployer.deploy(Eve, {value: 1000});
+            return deployer.deploy(Eve, {value: 10000});
         });
     });
    

