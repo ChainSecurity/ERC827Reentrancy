@@ -36,14 +36,6 @@ contract('VulnerableCrowdsale', function(accounts) {
         let newBalance = web3.eth.getBalance(saleInstance.address).toNumber();
         assert.equal(newBalance, oldBalance + 20);    
     });
-     /*           
-    it("can transfer tokens", async function() {
-        let oldBalance = (await token.balanceOf(eveInstance.address)).toNumber();
-        await saleInstance._deliverTokens(eveInstance.address, 20);
-        let newBalance = (await token.balanceOf(eveInstance.address)).toNumber();
-        assert.equal(newBalance - oldBalance, 20);
-    });
-    */
     
     it("should update contributions[] mapping by 20 wei", async function() {
         let eveContrib = (await saleInstance.getUserContribution(eveInstance.address)).toNumber();
@@ -62,20 +54,6 @@ contract('VulnerableCrowdsale', function(accounts) {
         assert.equal(eveContrib, 20);
         assert.equal(newBalance, oldBalance);    
     });
-/*
-    it("SHOULD accept (20 + 45 + 45) wei from Eve with reentrant call", async function() {
-        let oldBalance = web3.eth.getBalance(saleInstance.address).toNumber();
-        //await saleInstance.setUserCap(eveInstance.address, 1000, {from: owner});
-        let evesOldTokenAmount = (await token.balanceOf(eveInstance.address)).toNumber();
-        await eveInstance.exploitReentrancy(saleInstance.address, 45, 1); 
-        let evesNewTokenAmount = (await token.balanceOf(eveInstance.address)).toNumber();
-        let newBalance = web3.eth.getBalance(saleInstance.address).toNumber();
-        let eveContrib = (await saleInstance.getUserContribution(eveInstance.address)).toNumber();
-        assert.equal(evesOldTokenAmount + 180, evesNewTokenAmount);
-        assert.equal(eveContrib, 110);
-        assert.equal(newBalance, oldBalance + 90);    
-    });
-    */
 
     it("SHOULD accept (20 + 45 + 45 + 45 + 45) wei from Eve with reentrant calls", async function() {
         let oldBalance = web3.eth.getBalance(saleInstance.address).toNumber();
